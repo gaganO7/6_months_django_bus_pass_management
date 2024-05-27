@@ -1,0 +1,5 @@
+# Core dependencies
+python==3.8
+
+# Web Dependency
+Django>=3.2.14
