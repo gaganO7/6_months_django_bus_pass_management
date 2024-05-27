@@ -1,0 +1,52 @@
+{% extends "UserSide/user_master_page.html" %}
+{% block content %}
+
+<div class="container-fluid fruite py-5">
+    <div class="container py-5">
+        <div class="tab-class text-center">
+            <div class="col-12">
+                <div class="text-center mx-auto" style="max-width: 700px;">
+                    <h1 class="text-primary">Buses Routes</h1>
+                    <p class="mb-4">All available buses routes.</p>
+                </div>
+            </div>
+            <div class="tab-content">
+                <div id="tab-1" class="tab-pane fade show p-0 active">
+                    <div class="row g-4">
+                        <div class="col-lg-12">
+                            <div class="row g-4">
+                                {% for i in bus_routes %}
+                                <div class="col-md-6 col-lg-4 col-xl-3">
+                                    <div class="rounded position-relative fruite-item">
+                                        <div class="fruite-img">
+
+                                        </div>
+                                        <div class="p-4 border border-secondary border-top-0 rounded-bottom"
+                                            style="border-top-left-radius: 10px !important; border-top-right-radius: 10px !important;">
+                                            <h4>Route Id :- {{i.route_id}}</h4>
+                                            <p>
+                                                Route Start :- {{i.route_start}}
+                                                <br>
+                                                Route End :- {{i.route_end}}
+                                                <br>
+                                                Distance :- {{i.distance}}
+                                            </p>
+                                            <div class="d-flex justify-content-between flex-lg-wrap">
+                                                <a href="{% url 'bus-route-passes' i.id %}"
+                                                    class="btn border border-secondary rounded-pill px-5 text-primary">Check
+                                                    Passes</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "AdminSide/admin_master_page.html" %}
+{% block content %}
+<div class="form-w3layouts">
+    <div class="row">
+        <div class="col-lg-12">
+                        {% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }}" role="alert">
+   <strong>{{ message }}</strong>
+</div>
+{% endfor %}
+{% endif %}
+            <section class="panel">
+                <header class="panel-heading">
+                    Update Buses Details
+                </header>
+                <div class="panel-body">
+                    <div class="position-center">
+                        <form role="form" action="{% url 'update-buses-details' jk=selected_route_details.id %}"
+                            method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Bus name</label>
+                                <input type="text" name="busname" value={{selected_route_details.bus_name}}
+                                    class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Bus No</label>
+                                <input type="text" name="busno" value={{selected_route_details.bus_no}}
+                                    class="form-control" id="exampleInputPassword1" placeholder="Password">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Bus Registration No</label>
+                                <input type="text" name="busregistrationno"
+                                    value={{selected_route_details.bus_registration_no}} class="form-control"
+                                    id="exampleInputPassword1" placeholder="Password">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Setting Capacity</label>
+                                <input type="text" name="settingcapacity"
+                                    value={{selected_route_details.setting_capacity}} class="form-control"
+                                    id="exampleInputPassword1" placeholder="Password">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Standing Capacity</label>
+                                <input type="text" name="standingcapacity"
+                                    value={{selected_route_details.standing_capacity}} class="form-control"
+                                    id="exampleInputPassword1" placeholder="Password">
+                            </div>
+                            <button type="submit" class="btn btn-info">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}

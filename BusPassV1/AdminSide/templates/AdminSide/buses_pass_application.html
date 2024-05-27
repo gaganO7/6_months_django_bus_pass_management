@@ -1,0 +1,105 @@
+{% extends 'AdminSide/admin_master_page.html' %}
+{% block content %}
+<div class="table-agile-info">
+    {% if messages %}
+   {% for message in messages %}
+   <div class="alert alert-{{ message.tags }}" role="alert">
+      <strong>{{ message }}</strong>
+   </div>
+   {% endfor %}
+   {% endif %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Pass Applications
+    </div>
+    <div class="row w3-res-tb">
+      <div class="col-sm-5 m-b-xs">
+        <form action="{% url 'buses-pass-application' %}" method="POST">
+            {% csrf_token %}
+        <select class="input-sm form-control w-sm inline v-middle" name="choose">
+          <option value="0">Pending</option>
+          <option value="1">Ready</option>
+          <option value="2">Renewed</option>
+          <option value="3">All</option>
+        </select>
+        <button class="btn btn-sm btn-default">Apply</button>    
+        </form>            
+      </div>
+      <div class="col-sm-4">
+      </div>
+      <div class="col-sm-3">
+        <div class="input-group">
+          
+        </div>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-striped b-t b-light">
+        <thead>
+          <tr>
+                  <th data-breakpoints="xs">S.No.</th>
+                  <th>Name</th>
+                  <th>Pass Type</th>
+                  <th>Pass Price</th>
+                  <th>From-To</th>
+                  <th>Profile Image</th>
+                  <th>Document Image</th>
+                  <th>Pass Status</th>
+                  <th>Pass Created Date</th>
+                  <th>Action</th>
+               </tr>
+        </thead>
+        <tbody>
+            {% if new_pass_applications %}
+               {% for i in new_pass_applications %}
+               <tr data-expanded="true">
+                  <td>{{forloop.counter}}</td>
+                  <td>{{i.user_id.usrname}}</td>
+                  <td>{{i.pass_price_id.pass_type}}</td>
+                  <td>₹{{i.pass_price_id.dis_price}}</td>
+                  <td>{{i.pass_price_id.route_id.route_start}}-{{i.pass_price_id.route_id.route_end}}</td>
+                  <td><img src="{{i.profile_image.url}}" width="100px" height="100px"></td>
+                  <td><img src="{{i.document.url}}" width="100px" height="100px"></td>
+
+                  {% if i.pass_status == "0" %}
+                  <td>
+                     <span class="badge badge-danger">Pending</span>
+                  </td>
+                  {% elif i.pass_status == "1" %}
+                  <td>
+                     <span class="badge badge-info">Pass Ready</span>
+                  </td>
+                  {% else %}
+                  <td>
+                     <span class="badge badge-primary">Renewed</span>
+                  </td>
+                  {% endif %}
+                  <td>{{i.create_date}}</td>
+                  {% if i.pass_status == "2" %}
+                  <td>
+                    <a href="{% url 'update-pass-status' i.id 2 %}"><button class="btn btn-success" type="submit">Ready</button></a>
+                  </td>
+                  {% elif i.pass_status == "1" %}
+                  <td>-----</td>
+                  {% else %}
+                  <td>
+                    <a href="{% url 'update-pass-status' i.id 2 %}"><button class="btn btn-success" type="submit">Ready</button></a>
+                  </td>
+                  {% endif %}
+               </tr>
+               {% endfor %}
+               {% else %}
+               <tr data-expanded="true">
+                  <td colspan="7" style="text-align:center;">No Information Available</td>
+               </tr>
+               {% endif %}
+        </tbody>
+      </table>
+    </div>
+    <footer class="panel-footer">
+      <div class="row">
+      </div>
+    </footer>
+  </div>
+</div>
+{% endblock %}

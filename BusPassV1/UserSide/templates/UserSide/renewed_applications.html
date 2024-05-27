@@ -1,0 +1,77 @@
+{% extends 'UserSide/user_master_page.html' %}
+{% block content %}
+<div class="col-12">
+               <div class="text-center mx-auto" style="max-width: 700px;">
+                  <h1 class="text-primary">Renewed Applications</h1>
+                  <p class="mb-4">All your submitted renewed applications.</p>
+               </div>
+            </div>
+<div class="container-fluid py-5">
+            <div class="container py-5">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">S.No.</th>
+                            <th scope="col">User Details</th>
+                            <th scope="col">Pass Details</th>
+                            <th scope="col">Pass Validity Dates</th>
+                            <th scope="col">Profile Image</th>
+                            <th scope="col">Document Uploaded</th>
+                            <th scope="col">Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% if renewed_applications %}
+                            {% for i in renewed_applications %}
+                            <tr>
+                                <td class="py-5">{{forloop.counter}}</td>
+                                <td class="py-5">
+                                    Name :- {{i.user_id.username}}
+                                    <br>
+                                    Mobile Number :- {{i.mobile_number}}
+                                </td>
+                                <td class="py-5">
+                                    Route Start :- {{i.pass_price_id.route_id.route_start}}
+                                    <br>
+                                    Route End :- {{i.pass_price_id.route_id.route_end}}
+                                    <br>
+                                    Price :- ₹{{i.pass_price_id.dis_price}}
+                                </td>
+                                <td class="py-5">
+                                    From :- {{i.pass_start_date}}
+                                    <br>
+                                    To :- {{i.pass_end_date}}
+                                </td>
+                                <td class="py-5">
+                                    <img src="{{i.profile_image.url}}" width="50px" height="50px">
+                                </td>
+                                <td class="py-5">
+                                    <img src="{{i.document.url}}" width="50px" height="50px">
+                                </td>
+                                <td class="py-5">
+                                    {% if i.pass_status == "2" %}
+                                    RENEWED PENDING
+                                    {% elif i.pass_status == "1" %}
+                                    PASS READY
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                            <tr>
+                                <td class="py-5"></td>
+                                <td class="py-5"></td>
+                                <td class="py-5"></td>
+                                <td class="py-5">No Applications yet available for the renew.</td>
+                                <td class="py-5"></td>
+                                <td class="py-5"></td>
+                                <td class="py-5"></td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+{% endblock %}

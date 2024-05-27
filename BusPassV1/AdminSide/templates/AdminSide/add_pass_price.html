@@ -1,0 +1,108 @@
+{% extends "AdminSide/admin_master_page.html" %}
+{% block content %}
+<div class="form-w3layouts">
+    <div class="row">
+        <div class="col-lg-12">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" role="alert">
+                <strong>{{ message }}</strong>
+            </div>
+            {% endfor %}
+            {% endif %}
+            <section class="panel">
+                <header class="panel-heading">
+                    Buses Pass Price
+                </header>
+                <div class="panel-body">
+                    <div class="position-center">
+                        <form role="form" action="{% url 'add-pass-price' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Route ID</label>
+                                <select class="form-control input-sm m-bot15" name="routeid" id="routeid">
+                                    {% for i in passes_details %}
+                                    <option value="{{ i.id }}">{{ i.route_id }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Route Start</label>
+                                <input type="text" class="form-control" id="route_start" placeholder="Route Start"
+                                    readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Route End</label>
+                                <input type="text" class="form-control" id="route_end" placeholder="Route End" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Pass Price (Per Month)</label>
+                                <input type="text" class="form-control" name="passpricepermonth"
+                                    id="pass_price_per_month" placeholder="Pass Price (Per Month)">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Pass Type</label>
+                                <select class="form-control input-sm m-bot15" name="passtypeId" id="passtypeId"
+                                    onchange="calculatePrice()">
+                                    <option value="3">3 Months</option>
+                                    <option value="6">6 Months</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Total Price</label>
+                                <input type="text" class="form-control" name="totalPrice" id="totalPrice"
+                                    placeholder="Total Pass Price">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Final Pass Price (Half)</label>
+                                <input type="text" class="form-control" name="finalPassPrice" id="half_pass_price"
+                                    placeholder="Final Pass Price (Half)">
+                            </div>
+                            <button type="submit" class="btn btn-info">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#routeid').change(function () {
+            var routeId = $(this).val();
+            if (routeId) {
+                $.ajax({
+                    url: '{% url "get_route_details" %}',
+                    data: {
+                        'route_id': routeId
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#route_start').val(data.route_start);
+                        $('#route_end').val(data.route_end);
+                    }
+                });
+            } else {
+                $('#route_start').val('');
+                $('#route_end').val('');
+            }
+        });
+    });
+</script>
+
+<script>
+    function calculatePrice() {
+        passPricePerMonth = document.getElementById("pass_price_per_month").value;
+        totalPrice = document.getElementById("totalPrice");
+        passType = document.getElementById("passtypeId").value;
+        finalHalfPrice = document.getElementById("half_pass_price");
+
+        totalPassPrice = passPricePerMonth * passType;
+        console.log(totalPassPrice);
+        totalPrice.value = totalPassPrice;
+
+        totalHalfPrice = totalPassPrice / 2;
+        finalHalfPrice.value = totalHalfPrice;
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,129 @@
+{% extends 'AdminSide/admin_master_page.html' %}
+{% block content %}
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }}" role="alert">
+   <strong>{{ message }}</strong>
+</div>
+{% endfor %}
+{% endif %}
+<div class="market-updates">
+   <div class="col-md-3 market-update-gd">
+      <div class="market-update-block clr-block-2">
+         <div class="col-md-4 market-update-right">
+            <i class="fa fa-eye"> </i>
+         </div>
+         <div class="col-md-8 market-update-left">
+            <h4>Total</h4>
+            <h3>{{total_pass_applications}}</h3>
+            <p>Pass Applications</p>
+         </div>
+         <div class="clearfix"> </div>
+      </div>
+   </div>
+   <div class="col-md-3 market-update-gd">
+      <div class="market-update-block clr-block-1">
+         <div class="col-md-4 market-update-right">
+            <i class="fa fa-check-circle" style="font-size:3em; color:white;"></i>
+         </div>
+         <div class="col-md-8 market-update-left">
+            <h4>Total</h4>
+            <h3>{{total_routes}}</h3>
+            <p>Buses Routes</p>
+         </div>
+         <div class="clearfix"> </div>
+      </div>
+   </div>
+   <div class="col-md-3 market-update-gd">
+      <div class="market-update-block clr-block-3">
+         <div class="col-md-4 market-update-right">
+            <i class="fa fa-sitemap" style="font-size:3em; color:white;"></i>
+         </div>
+         <div class="col-md-8 market-update-left">
+            <h4>Total</h4>
+            <h3>{{total_enquiries}}</h3>
+            <p>Enquiries</p>
+         </div>
+         <div class="clearfix"> </div>
+      </div>
+   </div>
+   <div class="col-md-3 market-update-gd">
+      <div class="market-update-block clr-block-4">
+         <div class="col-md-4 market-update-right">
+            <i class="fa fa-book" aria-hidden="true" style="font-size:3em; color:white;"></i>
+         </div>
+         <div class="col-md-8 market-update-left">
+            <h4>Total</h4>
+            <h3>{{total_renew_pass_applications}}</h3>
+            <p>Renew Applications</p>
+         </div>
+         <div class="clearfix"> </div>
+      </div>
+   </div>
+   <div class="clearfix"> </div>
+</div>
+<div class="table-agile-info">
+   <div class="panel panel-default">
+      <div class="panel-heading">
+         Recent Pass Applications
+      </div>
+      <div>
+         <table class="table" ui-jq="footable" ui-options="{
+            &quot;paging&quot;: {
+            &quot;enabled&quot;: true
+            },
+            &quot;filtering&quot;: {
+            &quot;enabled&quot;: true
+            },
+            &quot;sorting&quot;: {
+            &quot;enabled&quot;: true
+            }}">
+            <thead>
+               <tr>
+                  <th data-breakpoints="xs">S.No.</th>
+                  <th>Name</th>
+                  <th>Pass Type</th>
+                  <th>Pass Price</th>
+                  <th>From</th>
+                  <th>To</th>
+                  <th>Status</th>
+                  <th>Pass Created Date</th>
+               </tr>
+            </thead>
+            <tbody>
+               {% if recent_pass_applications %}
+               {% for i in recent_pass_applications %}
+               <tr data-expanded="true">
+                  <td>{{forloop.counter}}</td>
+                  <td>{{i.user_id.username}}</td>
+                  <td>{{i.pass_price_id.pass_type}} Months</td>
+                  <td>₹{{i.pass_price_id.dis_price}}</td>
+                  <td>{{i.pass_start_date}}</td>
+                  <td>{{i.pass_end_date}}</td>
+                  {% if i.pass_status == "0" %}
+                  <td>
+                     <span class="badge badge-danger">Pending</span>
+                  </td>
+                  {% elif i.pass_status == "1" %}
+                  <td>
+                     <span class="badge badge-info">Ready</span>
+                  </td>
+                  {% else %}
+                  <td>
+                     <span class="badge badge-primary">Renew</span>
+                  </td>
+                  {% endif %}
+                  <td>{{i.create_date}}</td>
+               </tr>
+               {% endfor %}
+               {% else %}
+               <tr data-expanded="true">
+                  <td colspan="8" style="text-align:center;">No Information available</td>
+               </tr>
+               {% endif %}
+            </tbody>
+         </table>
+      </div>
+   </div>
+</div>
+{% endblock %}

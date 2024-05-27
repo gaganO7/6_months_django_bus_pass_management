@@ -1,0 +1,53 @@
+{% extends 'UserSide/user_master_page.html' %}
+{% block content %}
+<div class="col-12">
+               <div class="text-center mx-auto" style="max-width: 700px;">
+                  <h1 class="text-primary">Issues Details</h1>
+                  <p class="mb-4">All your submitted issue reports.</p>
+               </div>
+            </div>
+<div class="container-fluid py-5">
+            <div class="container py-5">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">S.No.</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Subject</th>
+                            <th scope="col">Message</th>
+                            <th scope="col">Reply</th>
+                            <th scope="col">Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in issues_details %}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td>{{i.user_id.username}}</td>
+                                <td>{{i.email}}</td>
+                                <td>{{i.subject}}</td>
+                                <td>{{i.message}}</td>
+                                <td>
+                                    {% if i.status == "0" %}
+                                    N/A
+                                    {% else %}
+                                    {{i.reply}}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if i.status == "0" %}
+                                    Pending
+                                    {% else %}
+                                    Replied Done
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+{% endblock %}

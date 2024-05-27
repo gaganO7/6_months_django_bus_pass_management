@@ -1,0 +1,80 @@
+{% extends "AdminSide/admin_master_page.html" %}
+{% block content %}
+<div class="table-agile-info"> 
+                          {% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }}" role="alert">
+   <strong>{{ message }}</strong>
+</div>
+{% endfor %}
+{% endif %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Show Pass Price Details
+    </div>
+    <div>
+      <table class="table" ui-jq="footable" ui-options="{
+           &quot;paging&quot;: {
+             &quot;enabled&quot;: true
+           },
+           &quot;filtering&quot;: {
+             &quot;enabled&quot;: true
+           },
+           &quot;sorting&quot;: {
+             &quot;enabled&quot;: true
+           }}">
+        <thead>
+          <tr>
+            <th data-breakpoints="xs">S.No.</th>
+            <th>Route ID</th>
+            <th>Route Start</th>
+            <th>Route End</th>
+            <th>Pass Price (Per Month)</th>
+            <th>Total Price</th>
+            <th>Pass Type</th>
+            <th>Final Half Price</th>
+            <th data-breakpoints="xs">Delete</th>
+            <th data-breakpoints="xs sm md" data-title="DOB">Update</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if price_details %}
+          {% for i in price_details %}
+          <tr data-expanded="true">
+            <td>{{forloop.counter}}</td>
+            <td>{{i.route_id.route_id}}</td>
+            <td>{{i.route_id.route_start}}</td>
+            <td>{{i.route_id.route_end}}</td>
+            <td>Rs.{{i.pass_price_per_month}}</td>
+            <td>Rs.{{i.dis_price}}</td>
+            <td>{{i.pass_type}}Months</td>
+            <td>Rs.{{i.final_half_price}}</td>
+            <td>
+              <a href="{% url 'delete-pass-price' i.id %}">
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </a>
+            </td>
+            <td>
+              <a href="{% url 'update-pass-price' i.id %}">
+                <button type="submit" class="btn btn-info">Update</button>
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+          {% else %}
+          <tr data-expanded="true">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>No Information is available</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

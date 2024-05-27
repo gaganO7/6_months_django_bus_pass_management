@@ -1,0 +1,98 @@
+{% extends 'UserSide/user_master_page.html' %}
+{% block content %}
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        <h1 class="mb-4">Billing details</h1>
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" role="alert">
+            <strong>{{ message }}</strong>
+        </div>
+        {% endfor %}
+        {% endif %}
+        <form action="{% url 'buy-pass' selected_pass.pk %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row g-5">
+                <div class="col-md-12 col-lg-6 col-xl-7">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-6">
+                            <div class="form-item w-100">
+                                <label class="form-label my-3">Name<sup>*</sup></label>
+                                <input type="text" class="form-control" value="{{request.user}}" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-6">
+                            <div class="form-item w-100">
+                                <label class="form-label my-3">Email<sup>*</sup></label>
+                                <input type="text" class="form-control" value="{{request.user.email}}" name="email">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <label class="form-label my-3">Mobile Number<sup>*</sup></label>
+                        <input type="text" class="form-control" name="mobilenumber">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-lg-6">
+                            <div class="form-item w-100">
+                                <label class="form-label my-3">Upload Your Image<sup>*</sup></label>
+                                <input type="file" class="form-control" name="profileimage">
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-6">
+                            <div class="form-item w-100">
+                                <label class="form-label my-3">Upload Your ID<sup>*</sup></label>
+                                <input type="file" class="form-control" name="documentimage">
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12 col-lg-6">
+                            <div class="form-item w-100">
+                                <label class="form-label my-3">Pass Start Date<sup>*</sup></label>
+                                <input type="date" class="form-control" id="start-date" name="passstartdate"
+                                    onchange="getValue()">
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-6">
+                            <div class="form-item w-100">
+                                <label class="form-label my-3">Pass End Date<sup>*</sup></label>
+                                <input type="text" class="form-control" id="end-date" name="passenddate">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-6 col-xl-5">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Route Id</th>
+                                    <th scope="col">Route Start</th>
+                                    <th scope="col">Route End</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Pass Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="py-5">{{selected_pass.route_id.route_id}}</td>
+                                    <td class="py-5">{{selected_pass.route_id.route_start}}</td>
+                                    <td class="py-5">{{selected_pass.route_id.route_end}}</td>
+                                    <td class="py-5">₹{{selected_pass.dis_price}}</td>
+                                    <td class="py-5">{{selected_pass.pass_type}} Months</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row g-4 text-center align-items-center justify-content-center pt-4">
+                        <button type="submit"
+                            class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">Buy Pass</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

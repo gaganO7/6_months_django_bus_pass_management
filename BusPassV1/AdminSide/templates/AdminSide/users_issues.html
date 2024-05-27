@@ -1,0 +1,93 @@
+{% extends 'AdminSide/admin_master_page.html' %}
+{% block content %}
+<div class="table-agile-info">
+    {% if messages %}
+   {% for message in messages %}
+   <div class="alert alert-{{ message.tags }}" role="alert">
+      <strong>{{ message }}</strong>
+   </div>
+   {% endfor %}
+   {% endif %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Users Issues
+    </div>
+    <div class="row w3-res-tb">
+      <div class="col-sm-5 m-b-xs">
+        <form action="{% url 'view-users-issues' %}" method="POST">
+            {% csrf_token %}
+        <select class="input-sm form-control w-sm inline v-middle" name="choose">
+          <option value="0">Pending</option>
+          <option value="1">Resolved</option>
+          <option value="2">All</option>
+        </select>
+        <button class="btn btn-sm btn-default">Apply</button>    
+        </form>            
+      </div>
+      <div class="col-sm-4">
+      </div>
+      <div class="col-sm-3">
+        <div class="input-group">
+          
+        </div>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-striped b-t b-light">
+        <thead>
+          <tr>
+                  <th data-breakpoints="xs">S.No.</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Subject</th>
+                  <th>Message</th>
+                  <th>Reply</th>
+                  <th>Status</th>
+                  <th>Action</th>
+               </tr>
+        </thead>
+        <tbody>
+            {% if issues_list %}
+               {% for i in issues_list %}
+               <tr data-expanded="true">
+                  <td>{{forloop.counter}}</td>
+                  <td>{{i.user_id.username}}</td>
+                  <td>{{i.user_id.email}}</td>
+                  <td>{{i.subject}}</td>
+                  <td>{{i.message}}</td>
+                  <td>{{i.reply}}</td>
+    
+                  {% if i.status == "0" %}
+                  <td>
+                     <span class="badge badge-danger">Pending</span>
+                  </td>
+                  {% elif i.status == "1" %}
+                  <td>
+                     <span class="badge badge-info">Replied</span>
+                  </td>
+                  {% endif %}
+                  
+                  {% if i.status == "0" %}   
+                  <td>
+                    <a href="{% url 'update-issue-status' i.id 1 %}"><button class="btn btn-success" type="submit">Reply</button></a>
+                  </td>
+                  {% else %}
+                  <td>-----</td>
+                  {% endif %}
+               </tr>
+               {% endfor %}
+               {% else %}
+               <tr data-expanded="true">
+                  <td colspan="8" style="text-align:center;">No Information Available</td>
+               </tr>
+               {% endif %}
+        </tbody>
+      </table>
+    </div>
+    <footer class="panel-footer">
+      <div class="row">
+      </div>
+    </footer>
+  </div>
+</div>
+{% endblock %}

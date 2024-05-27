@@ -1,0 +1,52 @@
+{% extends "AdminSide/admin_master_page.html" %}
+{% block content %}
+<div class="table-agile-info">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Renewal Status
+    </div>
+    <div>
+      <table class="table" ui-jq="footable" ui-options="{
+           &quot;paging&quot;: {
+             &quot;enabled&quot;: true
+           },
+           &quot;filtering&quot;: {
+             &quot;enabled&quot;: true
+           },
+           &quot;sorting&quot;: {
+             &quot;enabled&quot;: true
+           }}">
+        <thead>
+          <tr>
+            <th data-breakpoints="xs">S.No.</th>
+            <th>Pass No</th>
+            <th>Applicent Name</th>
+            <th>Issue date</th>
+            <th>Expire Date</th>
+            <th>Pass Type</th>
+
+
+            <th data-breakpoints="xs sm md" data-title="DOB">Renewal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-expanded="true">
+            <td>1</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+
+
+
+
+            <td><button type="submit" class="btn btn-info"><a href="renewal-click">Renewal</a></button></td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
